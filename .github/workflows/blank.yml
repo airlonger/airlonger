@@ -1,0 +1,25 @@
+name: Deploy to Shared Hosting
+
+on:
+  push:
+    branches:
+      - main  # Change to your actual branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Deploy to Shared Hosting via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.4
+        with:
+          server:  ftp.airlonger.com
+          username: ${{ secrets.FTP_USERNAME }}  # Make sure the secret exists
+          password: ${{ secrets.FTP_PASSWORD }}  # Make sure the secret exists
+          port: 21
+          local-dir: ./
+          server-dir: /public_html/
+          security: loose  # Enables passive mode
